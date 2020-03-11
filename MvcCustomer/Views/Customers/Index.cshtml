@@ -1,0 +1,166 @@
+﻿@model IEnumerable<MvcCustomer.Models.Customer>
+
+@{
+    ViewData["Title"] = "MVC Customer App - - ";
+}
+
+<h2>Mvc Customer List</h2>
+
+<a class="btn btn-success" data-toggle="modal" data-target=".bootstrapmodal"> <span class="glyphicon glyphicon-eye-open"></span> Create a Customer</a>
+
+<div class="modal fade bootstrapmodal" data-backdrop="static" id="myModal">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                <div class="modal-title">Create a new Customer</div>
+
+            </div>
+
+            <div class="modal-body">
+                
+
+                <form id="myForm">
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input class="form-control" placeholder="Enter your first name" type="text" id="FirstName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input class="form-control" placeholder="Enter your last name" type="text" id="LastName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="FirstName">Phone</label>
+                        <input class="form-control" placeholder="Enter your phone" type="text" id="Phone" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="FirstName">address</label>
+                        <input class="form-control" placeholder="Enter your home address" type="text" id="Address" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="FirstName">Email</label>
+                        <input class="form-control" placeholder="Enter your email" type="text" id="Email" />
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">cancel</a>
+
+                <a href="#" class="btn btn-success">Submit1</a>
+                <button class="btn btn-success">Submit2</button>
+                <button class="btn btn-primary">Sumbit3</button>
+
+                <input type="reset" value="Submit4" class="btn btn-success" id="btnSubmit" />
+                <a href="#" onclick="saveForm()">Save 1</a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $document.ready(function () {
+        $("#btnSubmit").click(function () {
+
+            //$("loader")
+            
+            var myformdata = $("#myForm").serialize();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Customers/Index",
+                data: myformdata,
+                success: function () {
+
+                    $("#myModal").modal("hide");
+
+                }
+            })
+
+
+        })
+    })
+
+    var saveForm = function () {
+
+
+        //
+    }
+</script>
+
+
+
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Customers" asp-action="Index" method="get">
+    <p>
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
